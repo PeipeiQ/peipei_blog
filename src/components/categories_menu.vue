@@ -1,7 +1,7 @@
 <template>
   <div class="menuview">
     <p>分类</p>
-    <div class="categoryView" v-for="(item,index) in categories">
+    <div class="categoryView" v-for="(item,index) in categories" @click="tap(item)">
       <span>{{item.name}}</span>
     </div>
   </div>
@@ -10,8 +10,7 @@
 <script>
   export default {
     name: "categories_menu",
-    props: ['categories']
-
+    props: ['categories','tap']
 
   }
 </script>

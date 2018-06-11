@@ -4,11 +4,15 @@
     <img src="../assets/background.jpg" style="margin-top: 10%;width: 60%;box-shadow: 5px 5px 15px 0px #666666;">
     <h1>{{ msg }}</h1>
 
-    <menuview :categories="categories" class="menuview"></menuview>
+    <menuview :categories="categories" class="menuview" :tap="tapCategory"></menuview>
 
     <div class="category">
       <p>博文分类：</p>
       <p>{{currentCategory}}</p>
+    </div>
+
+    <div class="content">
+      <contentView class="view" v-for="(item,index) in contents" :key="index" :contentItem="item"/>
     </div>
 
     <div class="leave_msg">
@@ -26,6 +30,7 @@
   import ajax from '../Utils/NetWork'
   import menuview from '../components/categories_menu'
   import headerView from '../components/home_header'
+  import contentView from '../components/content_view'
 
   export default {
     name: "home",
@@ -37,16 +42,21 @@
         message: '',
         categories:[],
         menuTop:'',
+        contents:[]
       }
     },
     components:{
-      menuview,headerView
+      menuview,headerView,contentView
     },
     methods: {
-      loadData() {
+      loadData(category) {
         var that = this;
-        ajax.get('/getContent', {}, function (data) {
-          that.categories = data.data.categories;
+        ajax.get('/getContent'+'?category='+category, {}, function (data) {
+          console.log(data)
+          that.categories = [];
+          that.categories.push({name:'全部'});
+          that.categories = that.categories.concat(data.data.categories);
+          that.contents = data.data.contents;
           that.menuTop = 30-that.categories.count*2;
         })
       },
@@ -55,10 +65,15 @@
         ajax.post('/api/leaveMsg', data, function (data) {
           console.log(data)
         })
+      },
+      tapCategory(e){
+        console.log(e)
+        this.loadData(e._id?e._id:'');
+        this.currentCategory = e.name;
       }
     },
     mounted() {
-      this.loadData()
+      this.loadData('')
     }
   }
 </script>
@@ -106,20 +121,6 @@
   }
 
 
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #42b983;
-  }
-
   .leave_msg {
     width: 60%;
     margin-bottom: 60px;
@@ -152,5 +153,25 @@
     font-size: 18px;
     box-shadow: 5px 5px 15px 0px #666666;
     border-radius: 5px;
+  }
+
+  .content{
+    width: 60%;
+    -moz-column-count:2; /* Firefox */
+    -webkit-column-count:2; /* Safari 和 Chrome */
+    column-count:2;
+    -moz-column-gap: 2em;
+    -webkit-column-gap: 2em;
+    column-gap: 2em;
+  }
+
+  .content .view{
+    width: 100%;
+    margin-bottom: 20px;
+    -moz-page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    border-radius: 10px;
+
   }
 </style>
