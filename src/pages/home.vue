@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <headerView class="header"/>
-    <img src="../assets/background.jpg" style="margin-top: 10%;width: 60%;box-shadow: 5px 5px 15px 0px #666666;">
+    <img src="../assets/b1.jpg" style="margin-top: 8%;width: 60%;box-shadow: 5px 5px 15px 0px #666666;">
     <h1>{{ msg }}</h1>
 
     <menuview :categories="categories" class="menuview" :tap="tapCategory"></menuview>
@@ -12,7 +12,7 @@
     </div>
 
     <div class="content">
-      <contentView class="view" v-for="(item,index) in contents" :key="index" :contentItem="item"/>
+      <contentView class="view" v-for="(item,index) in contents" :key="index" :contentItem="item" :gotoDetail="gotoDetail"/>
     </div>
 
     <div class="leave_msg">
@@ -70,6 +70,10 @@
         console.log(e)
         this.loadData(e._id?e._id:'');
         this.currentCategory = e.name;
+      },
+      gotoDetail(e){
+        // this.$router.push({name: 'article',params:{contentItem:e}})
+        // console.log(e)
       }
     },
     mounted() {
@@ -93,10 +97,10 @@
   }
 
   .header{
-    position: absolute;
-    top: 4%;
-    right: 6%;
-  }
+     position: absolute;
+     top: 4%;
+     right: 6%;
+   }
 
   .menuview{
     position: fixed;

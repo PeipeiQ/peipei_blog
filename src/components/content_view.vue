@@ -2,8 +2,10 @@
   <div class="content_view">
     <div class="box">
       <div class="title">{{contentItem.title}}</div>
-      <div class="category">{{contentItem.category.name}}</div>
-      <div class="description">{{contentItem.description}}</div>
+      <div class="category">分类：{{contentItem.category.name}}</div>
+      <p>简介</p>
+      <div class="description" v-html="contentItem.description"></div>
+      <div class="detail" @click="gotoDetail(contentItem)">详细>></div>
     </div>
   </div>
 </template>
@@ -11,8 +13,10 @@
 <script>
   export default {
     name: "content_view",
-    props: ['contentItem'],
-    methods: {},
+    props: ['contentItem','gotoDetail'],
+    methods: {
+
+    },
     mounted() {
     }
 
@@ -24,23 +28,43 @@
     padding: 15px;
   }
 
-  .content_view .box{
+  .content_view .box {
     width: 97%;
-    box-shadow: 3px 3px 15px 0px #666666
+    /*box-shadow: 3px 3px 15px 0px #666666;*/
+    border-radius: 8px;
+    background-color: #FFFEF3;
   }
 
-  .content_view .title {
-    padding: 15px;
-
+  .box p {
+    color: orange;
+    text-align: left;
+    margin-left: 20px;
     font-size: 20px;
-  }
-
-  .content_view .category {
 
   }
 
-  .content_view .description {
+  .box .detail {
+    width: 95%;
+    color: orange;
+    text-align: right;
+    font-size: 15px;
+    padding-bottom: 20px;
+  }
+
+  .content_view .box .title {
     padding: 15px;
+    font-size: 25px;
+  }
+
+  .content_view .box .category {
+
+  }
+
+  .content_view .box .description {
+
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
     text-align: left;
   }
 </style>
