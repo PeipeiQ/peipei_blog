@@ -51,7 +51,7 @@
     methods: {
       loadData(category) {
         var that = this;
-        ajax.get('/getContent'+'?category='+category, {}, function (data) {
+        ajax.get('/getContent'+'?category='+category, function (data) {
           console.log(data)
           that.categories = [];
           that.categories.push({name:'全部'});
@@ -71,10 +71,7 @@
         this.loadData(e._id?e._id:'');
         this.currentCategory = e.name;
       },
-      gotoDetail(e){
-        // this.$router.push({name: 'article',params:{contentItem:e}})
-        // console.log(e)
-      }
+
     },
     mounted() {
       this.loadData('')

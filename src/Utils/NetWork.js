@@ -56,11 +56,11 @@ const ajax = (function() {
    * @param  {[type]} errorFn   [请求失败执行函数]
    * @return {[type]}           [description]
    */
-  var get = (url, data, successFn, errorFn, completeFn)=> {
+  var get = (url, successFn, errorFn, completeFn)=> {
     let opt = {
       url: url,
       method: 'get',
-      params: data
+
     }
     baseAjax(opt, successFn, errorFn, completeFn)
   }

@@ -5,7 +5,7 @@
       <div class="category">分类：{{contentItem.category.name}}</div>
       <p>简介</p>
       <div class="description" v-html="contentItem.description"></div>
-      <div class="detail" @click="gotoDetail(contentItem)">详细>></div>
+      <div class="detail" @click="gotoDetail(contentItem)"><router-link :to="detailUrl">详细>></router-link></div>
     </div>
   </div>
 </template>
@@ -14,10 +14,16 @@
   export default {
     name: "content_view",
     props: ['contentItem','gotoDetail'],
+    data(){
+      return{
+        detailUrl:''
+      }
+    },
     methods: {
 
     },
     mounted() {
+      this.detailUrl = '/article/'+this.contentItem._id
     }
 
   }
