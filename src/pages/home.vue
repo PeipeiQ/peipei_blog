@@ -12,7 +12,7 @@
     </div>
 
     <div class="content">
-      <contentView class="view" v-for="(item,index) in contents" :key="index" :contentItem="item" :gotoDetail="gotoDetail"/>
+      <contentView class="view" v-for="(item,index) in contents" :key="index" :contentItem="item"/>
     </div>
 
     <div class="leave_msg">
