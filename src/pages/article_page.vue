@@ -1,43 +1,53 @@
 <template>
-  <div class="main">
+  <div class="article_background">
     <headerView class="header"/>
     <div class="box">
-      <div class="title">{{contentItem.title}}</div>
+      <div class="title">{{contentItem.content}}</div>
       <div class="content" v-html="contentItem.content"></div>
     </div>
+
   </div>
 </template>
 
 <script>
   import headerView from '../components/home_header'
+  import ajax from '../Utils/NetWork'
 
   export default {
     name: "article_page",
     data() {
       return {
-        contentItem: this.$route.params.contentItem
+        contentItem: {},
+        contentId: ''
       }
     },
     components: {
       headerView
     },
+    methods: {
+      loadData() {
+         ajax.get('/api/getcontent?id='+this.contentId,function (res) {
+           console.log(res)
+         })
+      }
+    },
     mounted() {
-      console.log(this.$route.params)
+      this.contentId = this.$route.params.id
+      console.log(this.contentId)
+      this.loadData()
     }
   }
 </script>
 
 <style scoped>
-  .main {
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    background-color: #e3eae9;
+  .article_background {
+    width: 100%;
+    height: 100%;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+
   }
 
   .header {
@@ -46,19 +56,16 @@
     right: 6%;
   }
 
-
-  .box{
+  .box {
     /*margin-top: 8%;*/
     width: 60%;
   }
 
-
-
   .title {
-    font-size: 30px;
+    font-size: 50px;
   }
 
-  .content{
+  .content {
 
   }
 </style>

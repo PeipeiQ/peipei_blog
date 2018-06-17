@@ -6,6 +6,7 @@ import Article from '../pages/article_page'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -13,7 +14,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/article',
+      path: '/article/:id',
       name: 'article',
       component: Article
     }
