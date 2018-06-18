@@ -5,7 +5,7 @@
       <div class="category">分类：{{contentItem.category.name}}</div>
       <p>简介</p>
       <div class="description" v-html="contentItem.description"></div>
-      <div class="detail" @click="gotoDetail(contentItem)"><router-link :to="detailUrl">详细>></router-link></div>
+      <div class="detail"><router-link :to="detailUrl">详细>></router-link></div>
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@
 <script>
   export default {
     name: "content_view",
-    props: ['contentItem','gotoDetail'],
+    props: ['contentItem'],
     data(){
       return{
         detailUrl:''
@@ -36,9 +36,9 @@
 
   .content_view .box {
     width: 97%;
-    /*box-shadow: 3px 3px 15px 0px #666666;*/
+    box-shadow: 3px 3px 10px 0px #666666;
     border-radius: 8px;
-    background-color: #FFFEF3;
+    /*background-color:  #ffffcc;*/
   }
 
   .box p {

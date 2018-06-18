@@ -18,10 +18,10 @@
     text-align: center;
     color: #2c3e50;
     margin-top: 0px;
-    background-color: #e3eae9;
+
   }
   body{
-    background-color: #e3eae9;
+    background-color: #fffffe;
   }
 
 

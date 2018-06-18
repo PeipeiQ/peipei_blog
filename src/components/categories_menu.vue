@@ -20,6 +20,7 @@
 
     display: flex;
     flex-direction: column;
+    /*background-color: #ffffff;*/
 
   }
 
@@ -32,7 +33,9 @@
     justify-content: center;
     align-items: center;
     border-radius: 40px;
-    box-shadow: 5px 5px 15px 0px #666666
+    box-shadow: 1px -1px 5px 0px #666666;
+    background: radial-gradient(white,yellow,white);;
+
   }
 
   .categoryView span{

@@ -64,6 +64,8 @@
         var data = {name: this.name, message: this.message};
         ajax.post('/api/leaveMsg', data, function (data) {
           console.log(data)
+          //toast提示？
+          location.reload()
         })
       },
       tapCategory(e){
@@ -86,7 +88,7 @@
     right: 0;
     left: 0;
     top: 0;
-    background-color: #e3eae9;
+    /*background-color: #fffffe;*/
     text-align: center;
     display: flex;
     flex-direction: column;

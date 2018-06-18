@@ -2,7 +2,7 @@
   <div class="article_background">
     <headerView class="header"/>
     <div class="box">
-      <div class="title">{{contentItem.content}}</div>
+      <div class="title">{{contentItem.title}}</div>
       <div class="content" v-html="contentItem.content"></div>
     </div>
 
@@ -25,9 +25,12 @@
       headerView
     },
     methods: {
+
       loadData() {
+        var that = this;
          ajax.get('/api/getcontent?id='+this.contentId,function (res) {
            console.log(res)
+           that.contentItem = res.data
          })
       }
     },
@@ -58,14 +61,22 @@
 
   .box {
     /*margin-top: 8%;*/
-    width: 60%;
+    width: 70%;
+    padding: 30px;
+    word-break:break-all;
+    margin-bottom: 10%;
+    margin-top: 10%;
+    box-shadow: 5px 5px 15px 0px #666666
   }
 
   .title {
     font-size: 50px;
+
   }
 
   .content {
-
+    width: 100%;
+    word-break:break-all;
+    text-align: left;
   }
 </style>
