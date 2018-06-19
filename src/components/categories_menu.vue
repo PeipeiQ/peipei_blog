@@ -34,7 +34,7 @@
     align-items: center;
     border-radius: 40px;
     box-shadow: 1px -1px 5px 0px #666666;
-    background: radial-gradient(white,yellow,white);;
+
 
   }
 
