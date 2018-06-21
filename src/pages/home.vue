@@ -1,8 +1,12 @@
 <template>
   <div class="main">
-    <headerView class="header"/>
-    <img src="../assets/b1.jpg" style="margin-top: 8%;width: 60%;box-shadow: 5px 5px 15px 0px #666666;">
-    <h1>{{ msg }}</h1>
+    <div class="mainview" :style="{height:fullHeight+'px'}">
+      <headerView class="header" />
+      <img src="../assets/background1.jpg" :style="{height:fullHeight+'px'}">
+      <h1 :style="{top:fullHeight-180+'px'}">{{ msg }}</h1>
+      <h2 :style="{top:fullHeight-100+'px'}">ios developer</h2>
+    </div>
+
 
     <menuview :categories="categories" class="menuview" :tap="tapCategory"></menuview>
 
@@ -36,28 +40,29 @@
     name: "home",
     data() {
       return {
-        msg: 'Welcome to Peipei Blog',
-        currentCategory: '全部',
+        msg: 'Peipei\'s Blog',
+        currentCategory: '首页',
         name: '',
         message: '',
-        categories:[],
-        menuTop:'',
-        contents:[]
+        categories: [],
+        menuTop: '',
+        contents: [],
+        fullHeight:document.documentElement.clientHeight
       }
     },
-    components:{
-      menuview,headerView,contentView
+    components: {
+      menuview, headerView, contentView
     },
     methods: {
       loadData(category) {
         var that = this;
-        ajax.get('/getContent'+'?category='+category, function (data) {
+        ajax.get('/getContent' + '?category=' + category, function (data) {
           console.log(data)
           that.categories = [];
-          that.categories.push({name:'全部'});
+          that.categories.push({name: '首页'});
           that.categories = that.categories.concat(data.data.categories);
           that.contents = data.data.contents;
-          that.menuTop = 30-that.categories.count*2;
+          that.menuTop = 30 - that.categories.count * 2;
         })
       },
       tapSubmit() {
@@ -68,15 +73,22 @@
           location.reload()
         })
       },
-      tapCategory(e){
+      tapCategory(e) {
         console.log(e)
-        this.loadData(e._id?e._id:'');
+        this.loadData(e._id ? e._id : '');
         this.currentCategory = e.name;
       },
 
     },
     mounted() {
-      this.loadData('')
+      this.loadData('');
+      const that = this
+      window.onresize = () => {
+        return (() => {
+          window.fullHeight = document.documentElement.clientHeight
+          that.fullHeight = window.fullHeight
+        })()
+      }
     }
   }
 </script>
@@ -95,25 +107,51 @@
     align-items: center;
   }
 
-  .header{
-     position: absolute;
-     top: 4%;
-     right: 6%;
-   }
+  .mainview {
+    width: 100%;
+    /*background-color: #EEEEEE;*/
+    background: -webkit-linear-gradient(left,#f7f7f7,#eeeeee);
+  }
 
-  .menuview{
-    position: fixed;
-    top: 10%;
-    left: 6%;
+
+  .mainview img {
+    /*margin-top: 10%;*/
+    /*width: 50%;*/
+    /*box-shadow: 5px 5px 15px 0px #666666;*/
+
+    /*height: 702px;*/
+    /*width: 1072px;*/
+    /*width: 100%;*/
+  }
+
+  .header {
+    position: absolute;
+    top: 50px;
+    right: 6%;
+  }
+
+  .menuview {
+    position: absolute;
+    top: 50px;
+    left: 4%;
   }
 
   h1 {
     font-weight: normal;
-    margin-top: 50px;
     font-size: 40px;
+    position: absolute;
+    right: 30px;
+  }
+  h2 {
+    font-weight: normal;
+    font-size: 20px;
+    position: absolute;
+    right: 30px;
   }
 
   .category {
+    /*position: absolute;*/
+    /*top: 100%;*/
     display: flex;
     flex-direction: row;
     font-size: 20px;
@@ -121,8 +159,8 @@
     font-weight: bold;
     width: 60%;
     justify-content: flex-start;
-  }
 
+  }
 
   .leave_msg {
     width: 60%;
@@ -158,17 +196,17 @@
     border-radius: 5px;
   }
 
-  .content{
+  .content {
     width: 60%;
-    -moz-column-count:2; /* Firefox */
-    -webkit-column-count:2; /* Safari 和 Chrome */
-    column-count:2;
+    -moz-column-count: 2; /* Firefox */
+    -webkit-column-count: 2; /* Safari 和 Chrome */
+    column-count: 2;
     -moz-column-gap: 2em;
     -webkit-column-gap: 2em;
     column-gap: 2em;
   }
 
-  .content .view{
+  .content .view {
     width: 100%;
     margin-bottom: 20px;
     -moz-page-break-inside: avoid;
