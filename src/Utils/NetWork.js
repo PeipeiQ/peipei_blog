@@ -15,7 +15,8 @@ const ajax = (function() {
       baseURL: '',
       timeout: 1000 * 60 * 2
     }
-    defaultOption.url = 'http://111.230.67.220:7070'+option.url;
+     defaultOption.url = 'http://111.230.67.220:7070'+option.url;
+    //defaultOption.url = 'http://localhost:7070'+option.url;
     defaultOption.method = option.method;
     defaultOption.data = option.data;
     axios(defaultOption)

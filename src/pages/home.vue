@@ -1,10 +1,10 @@
 <template>
   <div class="main">
-    <div class="mainview" :style="{height:fullHeight+'px'}">
+    <div class="mainview" :style="{height:fullHeight+'px',marginTop:imgTop+'px'}">
       <headerView class="header" />
       <img src="../assets/background1.jpg" :style="{height:fullHeight+'px'}">
-      <h1 :style="{top:fullHeight-180+'px'}">{{ msg }}</h1>
-      <h2 :style="{top:fullHeight-100+'px'}">ios developer</h2>
+      <h1 :style="{top:fullHeight-180+imgTop+'px'}">{{ msg }}</h1>
+      <h2 :style="{top:fullHeight-100+imgTop+'px'}">ios developer</h2>
     </div>
 
 
@@ -15,19 +15,28 @@
       <p>{{currentCategory}}</p>
     </div>
 
+    <div class="loading" v-if="isloading">Loading...</div>
     <div class="content">
       <contentView class="view" v-for="(item,index) in contents" :key="index" :contentItem="item"/>
     </div>
 
     <div class="leave_msg">
-      <p style="white-space: pre-line;">留言区</p>
+      <p >留言区</p>
       <div>
         <textarea class="input_name" v-model="name" placeholder="input name"></textarea>
         <textarea class="input_message" v-model="message" placeholder="input msg"></textarea>
         <button class="submit" @click="tapSubmit">提交</button>
       </div>
+      <p >精选留言</p>
+      <div class="sp_msg" v-for="(msg,index) in leaveMessage" v-if="msg.isSpecial">
+        <div class="line"></div>
+        <h class="nickname">昵称：<span>{{msg.name}}</span></h>
+        <div class="message">留言：{{msg.message}}</div>
+      </div>
     </div>
+
   </div>
+
 </template>
 
 <script>
@@ -47,7 +56,10 @@
         categories: [],
         menuTop: '',
         contents: [],
-        fullHeight:document.documentElement.clientHeight
+        fullHeight:document.documentElement.clientHeight,
+        imgTop:0,
+        leaveMessage:[],
+        isloading:false
       }
     },
     components: {
@@ -56,14 +68,19 @@
     methods: {
       loadData(category) {
         var that = this;
+        that.isloading = true;
+        that.contents = [];
         ajax.get('/getContent' + '?category=' + category, function (data) {
-          console.log(data)
           that.categories = [];
           that.categories.push({name: '首页'});
           that.categories = that.categories.concat(data.data.categories);
           that.contents = data.data.contents;
           that.menuTop = 30 - that.categories.count * 2;
-        })
+          that.isloading = false;
+        });
+        ajax.get('/api/getMsg',function (data) {
+           that.leaveMessage = data.data;
+        });
       },
       tapSubmit() {
         var data = {name: this.name, message: this.message};
@@ -74,7 +91,7 @@
         })
       },
       tapCategory(e) {
-        console.log(e)
+        this.imgTop = e._id?-500:0;
         this.loadData(e._id ? e._id : '');
         this.currentCategory = e.name;
       },
@@ -179,6 +196,11 @@
 
   }
 
+  .leave_msg p{
+    margin-top: 60px;
+    font-size: 20px;
+  }
+
   .leave_msg .input_message {
     height: 100px;
     width: 70%;
@@ -214,5 +236,36 @@
     break-inside: avoid;
     border-radius: 10px;
 
+  }
+
+  .loading {
+    width: 100%;
+    color: #666666;
+    font-size: 20px;
+  }
+
+  .sp_msg{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .sp_msg .line{
+    /*margin-top: 30px;*/
+    height: 2px;
+    background-color: #2c3e50;
+  }
+
+  .sp_msg .nickname{
+    margin-top: 5px;
+  }
+
+  .sp_msg .nickname span{
+    font-size: 20px;
+
+  }
+
+  .sp_msg .message{
+    margin-bottom: 30px;
   }
 </style>
