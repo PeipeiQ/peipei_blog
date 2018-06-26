@@ -2,8 +2,8 @@
   <div class="menuview">
     <!--<p>分类</p>-->
     <img src="../assets/menu.png" @click="tapShow"/>
-    <transition name="bounce" v-for="(item,index) in categories"  @click="tap(item)">
-      <div class="categoryView" v-if="isShow">
+    <transition name="bounce" v-for="(item,index) in categories"  >
+      <div class="categoryView" v-if="isShow" @click="tap(item)">
         <span>{{item.name}}</span>
       </div>
     </transition>
