@@ -1,7 +1,7 @@
 <template>
   <div class="article_background">
-    <headerView class="header"/>
-    <div class="box">
+    <headerView class="header" :isMobile="isMobile"/>
+    <div :class="[isMobile?'box_mobile':'box']">
       <div class="title">{{contentItem.title}}</div>
       <div class="content" v-html="contentItem.content"></div>
     </div>
@@ -18,26 +18,44 @@
     data() {
       return {
         contentItem: {},
-        contentId: ''
+        contentId: '',
+        isMobile:false
       }
     },
     components: {
       headerView
     },
     methods: {
-
       loadData() {
         var that = this;
          ajax.get('/api/getcontent?id='+this.contentId,function (res) {
            console.log(res)
            that.contentItem = res.data
          })
+      },
+      _isMobile() {
+        let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+        return flag;
       }
     },
     mounted() {
       this.contentId = this.$route.params.id
-      console.log(this.contentId)
+      this.isMobile=this._isMobile();
       this.loadData()
+      var that = this;
+      window.onresize = () => {
+        return (() => {
+          window.fullHeight = document.documentElement.clientHeight;
+          window.fullWidth = document.documentElement.clientWidth;
+          that.fullHeight = window.fullHeight;
+          that.fullWidth = window.fullWidth;
+          if(that.fullHeight<700||that.fullWidth<1000){
+            that.isMobile = true
+          }else {
+            that.isMobile = false
+          }
+        })()
+      }
     }
   }
 </script>
@@ -69,9 +87,21 @@
     box-shadow: 5px 5px 15px 0px #666666
   }
 
-  .title {
-    font-size: 50px;
+  .box_mobile{
+    width: 80%;
+    padding: 30px;
+    word-break:break-all;
+    margin-bottom: 10%;
+    margin-top: 20%;
 
+  }
+
+  .box_mobile .title {
+    font-size: 30px;
+  }
+
+  .box .title {
+    font-size: 50px;
   }
 
   .content {

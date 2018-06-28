@@ -1,8 +1,8 @@
 <template>
-  <div class="menuview">
+  <div :class="[isMobile?'menuview_mobile':'menuview']" >
     <!--<p>分类</p>-->
     <img src="../assets/menu.png" @click="tapShow"/>
-    <transition name="bounce" v-for="(item,index) in categories"  >
+    <transition name="bounce" v-for="(item,index) in categories" :key="index" >
       <div class="categoryView" v-if="isShow" @click="tap(item)">
         <span>{{item.name}}</span>
       </div>
@@ -13,7 +13,7 @@
 <script>
   export default {
     name: "categories_menu",
-    props: ['categories', 'tap'],
+    props: ['categories', 'tap','isMobile'],
     data() {
       return {
         isShow: false,
@@ -29,11 +29,13 @@
 
 <style scoped>
   .menuview {
-
     display: flex;
     flex-direction: row;
-    /*width: 5%;*/
-    /*height: 4%;*/
+  }
+
+  .menuview_mobile{
+    display: flex;
+    flex-direction: column;
   }
 
   .menuview img {
@@ -41,26 +43,32 @@
     height: 40px;
   }
 
-  .categoryView {
-    /*width: 80px;*/
+  .menuview_mobile img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .menuview .categoryView {
     height: 40px;
-    /*width: 100px;*/
-    /*background: aqua;*/
-    /*margin-bottom: 20px;*/
     margin-left: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    /*border-radius: 50%;*/
     box-shadow: 1px -1px 5px 0px #666666;
+  }
 
+  .menuview_mobile .categoryView {
+    height: 30px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px -1px 5px 0px #666666;
   }
 
   .categoryView span {
     padding-left: 20px;
     padding-right: 20px;
-    /*width: 70px;*/
-    /*word-wrap: break-word;*/
   }
 
   /* 可以设置不同的进入和离开动画 */

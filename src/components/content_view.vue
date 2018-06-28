@@ -3,7 +3,7 @@
     <div class="box">
       <div class="title">{{contentItem.title}}</div>
       <div class="category">分类：{{contentItem.category.name}}</div>
-      <p>简介</p>
+      <p>Abstract</p>
       <div class="description" v-html="contentItem.description"></div>
       <div class="detail"><router-link :to="detailUrl">详细>></router-link></div>
     </div>
