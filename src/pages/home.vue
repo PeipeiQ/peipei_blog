@@ -100,7 +100,7 @@
         })
       },
       tapCategory(e) {
-        this.imgTop = e._id ? -500 : 0;
+        this.imgTop = e._id ? (this.isMobile?-200: -500) : 0;
         this.loadData(e._id ? e._id : '');
         this.currentCategory = e.name;
       },
